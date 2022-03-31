@@ -1,3 +1,5 @@
+import * as webln from "webln/lib/provider";
+
 type RequestInvoiceArgs = {
   amount?: string | number;
   defaultAmount?: string | number;
@@ -6,13 +8,11 @@ type RequestInvoiceArgs = {
   defaultMemo?: string;
 };
 
-type KeysendArgs = {
-  destination: string;
-  customRecords?: Record<string, string>;
-  amount: string | number;
+type EnableResult = {
+  enabled: boolean;
 };
 
-export default class WebLNProvider {
+export default class WebLNProvider implements webln.WebLNProvider {
   enabled: boolean;
   isEnabled: boolean;
   executing: boolean;
@@ -23,16 +23,15 @@ export default class WebLNProvider {
     this.executing = false;
   }
 
-  enable() {
+  enable(): Promise<void> {
     if (this.enabled) {
-      return Promise.resolve({ enabled: true });
+      return Promise.resolve();
     }
-    return this.execute("enable").then((result) => {
+    return this.execute<EnableResult>("enable").then((result) => {
       if (typeof result.enabled === "boolean") {
         this.enabled = result.enabled;
         this.isEnabled = result.enabled;
       }
-      return result;
     });
   }
 
@@ -40,7 +39,7 @@ export default class WebLNProvider {
     if (!this.enabled) {
       throw new Error("Provider must be enabled before calling getInfo");
     }
-    return this.execute("getInfo");
+    return this.execute<webln.GetInfoResponse>("getInfo");
   }
 
   getTransactions() {
@@ -63,14 +62,19 @@ export default class WebLNProvider {
     if (!this.enabled) {
       throw new Error("Provider must be enabled before calling sendPayment");
     }
-    return this.execute("sendPaymentOrPrompt", { paymentRequest });
+    return this.execute<webln.SendPaymentResponse>("sendPaymentOrPrompt", {
+      paymentRequest,
+    });
   }
 
-  keysend(args: KeysendArgs) {
+  keysend(args: webln.KeysendArgs) {
     if (!this.enabled) {
       throw new Error("Provider must be enabled before calling keysend");
     }
-    return this.execute("keysendOrPrompt", args);
+    return this.execute<webln.SendPaymentResponse, webln.KeysendArgs>(
+      "keysendOrPrompt",
+      args
+    );
   }
 
   makeInvoice(args: string | number | RequestInvoiceArgs) {
@@ -81,7 +85,7 @@ export default class WebLNProvider {
       args = { amount: args };
     }
 
-    return this.execute("makeInvoice", args);
+    return this.execute<webln.RequestInvoiceResponse>("makeInvoice", args);
   }
 
   signMessage(message: string) {
@@ -89,7 +93,9 @@ export default class WebLNProvider {
       throw new Error("Provider must be enabled before calling signMessage");
     }
 
-    return this.execute("signMessageOrPrompt", { message });
+    return this.execute<webln.SignMessageResponse>("signMessageOrPrompt", {
+      message,
+    });
   }
 
   verifyMessage(signature: string, message: string) {
@@ -97,14 +103,14 @@ export default class WebLNProvider {
       throw new Error("Provider must be enabled before calling verifyMessage");
     }
 
-    return this.execute("verifyMessage", { signature, message });
+    return this.execute<void>("verifyMessage", { signature, message });
   }
 
   // NOTE: new call `type`s must be specified also in the content script
-  execute(
+  execute<TResult, TArgs = Record<string, unknown>>(
     type: string,
-    args?: Record<string, unknown>
-  ): Promise<Record<string, unknown>> {
+    args?: TArgs
+  ): Promise<TResult> {
     return new Promise((resolve, reject) => {
       // post the request to the content script. from there it gets passed to the background script and back
       // in page script can not directly connect to the background script
