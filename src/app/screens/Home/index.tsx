@@ -120,7 +120,7 @@ function Home() {
                 setLoadingSendSats(false);
               }
             }}
-            label="⚡️ Send Satoshis ⚡️"
+            label="⚡️ Send Satoshis"
             primary
             loading={loadingSendSats}
           />
