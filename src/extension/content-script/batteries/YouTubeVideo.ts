@@ -6,8 +6,6 @@ import { findLnurlFromYouTubeAboutPage } from "./YouTubeChannel";
 import { findLightningAddressInText, setLightningData } from "./helpers";
 import { BoostButton } from './../../inpage-components/dist/components/boost-button';
 
-customElements.define('boost-button', BoostButton);
-
 const urlMatcher = /^https:\/\/www\.youtube.com\/watch.*/;
 
 const albySendPayment = async ({
