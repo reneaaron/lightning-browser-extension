@@ -1,5 +1,4 @@
 import { ABORT_PROMPT_ERROR, USER_REJECTED_ERROR } from "~/common/constants";
-
 import WebLNProvider from "../ln/webln";
 
 if (document) {
@@ -8,6 +7,14 @@ if (document) {
   if (!window.webln) {
     window.webln = new WebLNProvider();
   }
+
+  console.log(window.customElements.get('boost-button'));
+  setTimeout(function() {
+    console.log(window.customElements.get('boost-button'));
+  }, 5000)
+
+  const boostButton = document.createElement("boost-button");
+  document.body.appendChild(boostButton);
 
   const readyEvent = new Event("webln:ready");
   window.dispatchEvent(readyEvent);

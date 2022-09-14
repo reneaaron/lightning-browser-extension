@@ -5,7 +5,7 @@ import { Component, h } from '@stencil/core';
   styleUrl: 'boost-button.css',
   shadow: true,
 })
-export class MyComponent {
+export class BoostButton {
   render() {
     return <div>
       <a class="fab" href="#">

@@ -4,7 +4,6 @@ import WebLNProvider from "~/extension/ln/webln";
 import getOriginData from "../originData";
 import { findLnurlFromYouTubeAboutPage } from "./YouTubeChannel";
 import { findLightningAddressInText, setLightningData } from "./helpers";
-import { BoostButton } from './../../inpage-components/dist/components/boost-button';
 
 const urlMatcher = /^https:\/\/www\.youtube.com\/watch.*/;
 
@@ -73,10 +72,21 @@ const stopPaymentStream = () => {
 };
 
 const createBoostButton = (lnurl: string) => {
+  
+  console.log("createBoostButton");
 
   const boostButton = document.createElement("boost-button");
+  boostButton.setAttribute('lnurl', lnurl);
   document.body.appendChild(boostButton);
 
+  console.log("OK");
+  console.log(document.querySelector('boost-button'));
+
+  console.log(window.customElements.get('boost-button'));
+  console.log(window.customElements.get('ion-toggle'));
+//   <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+// <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+// <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
 
   return;
 

@@ -1,10 +1,10 @@
 import { newSpecPage } from '@stencil/core/testing';
-import { MyComponent } from './boost-button';
+import { BoostButton } from './boost-button';
 
 describe('boost-button', () => {
   it('renders', async () => {
     const { root } = await newSpecPage({
-      components: [MyComponent],
+      components: [BoostButton],
       html: '<boost-button></boost-button>',
     });
     expect(root).toEqualHtml(`
@@ -20,7 +20,7 @@ describe('boost-button', () => {
 
   it('renders with values', async () => {
     const { root } = await newSpecPage({
-      components: [MyComponent],
+      components: [BoostButton],
       html: `<boost-button first="Stencil" last="'Don't call me a framework' JS"></boost-button>`,
     });
     expect(root).toEqualHtml(`
