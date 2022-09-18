@@ -32,6 +32,16 @@ async function init() {
   injectScript(browser.runtime.getURL("js/inpageScript.bundle.js")); // registers the DOM event listeners and checks webln again (which is also loaded onstart
   injectScript(browser.runtime.getURL("js/inpageComponents.bundle.js")); // registers the DOM event listeners and checks webln again (which is also loaded onstart
 
+  // const script = document.createElement('script');
+
+  // //script.setAttribute('type', 'module');
+  // script.setAttribute('src', chrome.runtime.getURL('dist/alby-inpage-components/alby-inpage-components.js'));
+  // script.setAttribute('data-resources-url', chrome.runtime.getURL('dist/'));
+  // script.setAttribute('data-stencil-namespace', 'boost-button');
+  // script.setAttribute('nomodule','');
+
+  // document.body.appendChild(script);
+
   // extract LN data from websites
   browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === "extractLightningData") {

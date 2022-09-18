@@ -1,0 +1,10 @@
+:host {
+  position: absolute;
+  z-index: 9999; 
+  background: #FACE71;
+  padding: 0.5em;
+  border-radius: 0.5em;
+  box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
+  left: 470px;
+  top: 20px;
+}

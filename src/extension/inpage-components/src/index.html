@@ -7,8 +7,27 @@
 
     <script type="module" src="/build/alby-inpage-components.esm.js"></script>
     <script nomodule src="/build/alby-inpage-components.js"></script>
+    <style>
+      video {
+        background: #000;
+      }
+    </style>
   </head>
   <body>
     <boost-button first="Stencil" last="'Don't call me a framework' JS"></boost-button>
+
+    <video src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm" width="640" height="480"></video>
+    <script>
+      var videoOverlay = document.createElement("video-overlay");
+      document.body.appendChild(videoOverlay);
+      
+        (async () => {
+          var videoElement = document.querySelector("video");
+
+          await customElements.whenDefined('video-overlay');
+          const todoListElement = document.querySelector('video-overlay');
+          await todoListElement.setVideoElement(videoElement);
+        })();
+    </script>
   </body>
 </html>

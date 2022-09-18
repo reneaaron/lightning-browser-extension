@@ -7,6 +7,10 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface BoostButton {
+        "sendPaymentFunc": Function;
+    }
+    interface VideoOverlay {
+        "setVideoElement": (el: any) => Promise<void>;
     }
 }
 declare global {
@@ -16,15 +20,26 @@ declare global {
         prototype: HTMLBoostButtonElement;
         new (): HTMLBoostButtonElement;
     };
+    interface HTMLVideoOverlayElement extends Components.VideoOverlay, HTMLStencilElement {
+    }
+    var HTMLVideoOverlayElement: {
+        prototype: HTMLVideoOverlayElement;
+        new (): HTMLVideoOverlayElement;
+    };
     interface HTMLElementTagNameMap {
         "boost-button": HTMLBoostButtonElement;
+        "video-overlay": HTMLVideoOverlayElement;
     }
 }
 declare namespace LocalJSX {
     interface BoostButton {
+        "sendPaymentFunc": Function;
+    }
+    interface VideoOverlay {
     }
     interface IntrinsicElements {
         "boost-button": BoostButton;
+        "video-overlay": VideoOverlay;
     }
 }
 export { LocalJSX as JSX };
@@ -32,6 +47,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "boost-button": LocalJSX.BoostButton & JSXBase.HTMLAttributes<HTMLBoostButtonElement>;
+            "video-overlay": LocalJSX.VideoOverlay & JSXBase.HTMLAttributes<HTMLVideoOverlayElement>;
         }
     }
 }
