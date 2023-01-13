@@ -54,7 +54,7 @@ const Button = forwardRef(
             "hover:bg-gray-50 dark:hover:bg-surface-16dp",
           disabled ? "cursor-default opacity-60" : "cursor-pointer",
           flex && "flex-1",
-          "inline-flex justify-center items-center font-medium rounded-md shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-orange-bitcoin transition duration-150"
+          "inline-flex justify-center items-center font-medium rounded-md shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-orange-bitcoin transition duration-150"
         )}
         onClick={onClick}
         disabled={disabled}

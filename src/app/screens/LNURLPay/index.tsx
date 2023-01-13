@@ -1,13 +1,11 @@
 import Button from "@components/Button";
-import ConfirmOrCancel from "@components/ConfirmOrCancel";
 import Container from "@components/Container";
-import PublisherCard from "@components/PublisherCard";
 import ResultCard from "@components/ResultCard";
 import SatButtons from "@components/SatButtons";
 import DualCurrencyField from "@components/form/DualCurrencyField";
 import TextField from "@components/form/TextField";
 import axios from "axios";
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -352,11 +350,17 @@ function LNURLPay() {
           <>
             <div className="grow overflow-y-auto no-scrollbar">
               <Container maxWidth="sm">
-                <PublisherCard
-                  title={navState.origin?.name}
-                  description={getRecipient()}
-                  image={navState.origin?.icon || getImage()}
-                />
+                <div className="font-medium mt-4">To</div>
+                <div className="p-2 drop-shadow rounded-lg h-12 flex items-center bg-white dark:bg-surface-02dp">
+                  <div className="flex flex-col overflow-hidden w-full ml-4">
+                    <h2
+                      title={getRecipient()}
+                      className="text-lg font-medium dark:text-white overflow-hidden text-ellipsis whitespace-nowrap my-1"
+                    >
+                      {getRecipient()}
+                    </h2>
+                  </div>
+                </div>
                 <form onSubmit={handleSubmit}>
                   <fieldset disabled={loadingConfirm}>
                     <div className="my-4">
@@ -388,7 +392,7 @@ function LNURLPay() {
                             <DualCurrencyField
                               autoFocus
                               id="amount"
-                              label={t("amount.label")}
+                              label={"How much would you like to send?"}
                               min={Math.floor(+details.minSendable / 1000)}
                               max={Math.floor(+details.maxSendable / 1000)}
                               value={valueSat}
@@ -415,7 +419,7 @@ function LNURLPay() {
                             />
                           </div>
                         )}
-                      {details && details?.payerData?.name && (
+                      {/* {details && details?.payerData?.name && (
                         <div className="mt-4">
                           <TextField
                             id="name"
@@ -440,15 +444,17 @@ function LNURLPay() {
                             }}
                           />
                         </div>
-                      )}
+                      )} */}
                     </div>
-                    <div className="pt-2 border-t border-gray-200 dark:border-white/10">
-                      <ConfirmOrCancel
-                        isFocused={false}
-                        label={tCommon("actions.confirm")}
-                        loading={loadingConfirm}
+                    <div className="pt-2">
+                      <Button
+                        type="submit"
+                        onClick={loadingConfirm}
+                        label={"Send " + valueSat + " sats"}
+                        primary
                         disabled={loadingConfirm || !valueSat}
-                        onCancel={reject}
+                        loading={loadingConfirm}
+                        fullWidth
                       />
                     </div>
                   </fieldset>
